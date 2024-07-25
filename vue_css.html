@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vue.js Resume</title>
+    <!-- 引入 Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <!-- 引入 CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin-top: 20px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            margin: 5px 0;
+        }
+        .contact-info p {
+            margin: 5px 0;
+        }
+        .skills, .learning-experience {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .skills ul, .learning-experience ul {
+            flex: 1;
+            margin-right: 20px;
+        }
+        .learning-experience ul ul {
+            padding-left: 20px;
+        }
+        .profile-pic {
+            display: block;
+            margin: 0 auto;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <!-- Vue.js 應用的根元素 -->
+    <div id="app" class="container">
+        <!-- 大頭貼 -->
+        <img :src="profilePic" alt="Profile Picture" class="profile-pic">
+        <!-- 基本信息展示 -->
+        <h1>{{ fullName }}</h1>
+        <div class="contact-info">
+            <p><strong>Gender:</strong> {{ gender }}</p>
+            <p><strong>Age:</strong> {{ age }}</p>
+            <p><strong>Status:</strong> {{ status }}</p>
+            <p><strong>Phone:</strong> {{ phone }}</p>
+            <p><strong>Email:</strong> {{ email }}</p>
+            <p><strong>Address:</strong> {{ address }}</p>
+            <p><strong>License:</strong> {{ license }}</p>
+            <p><strong>Available for Work:</strong> {{ availability }}</p>
+        </div>
+
+        <!-- 教育背景展示 -->
+        <h2>Education</h2>
+        <ul>
+            <li v-for="edu in education" :key="edu.id">
+                {{ edu.institution }} - {{ edu.degree }} ({{ edu.period }})
+            </li>
+        </ul>
+
+        <!-- 學習經歷展示 -->
+        <h2>Learning Experience</h2>
+        <div class="learning-experience">
+            <ul>
+                <li v-for="learn in learningExperience" :key="learn.id">
+                    {{ learn.title }}
+                    <span v-if="learn.organization || learn.period">
+                        at <span v-if="learn.organization">{{ learn.organization }}</span>
+                        <span v-if="learn.organization && learn.period">, </span>
+                        <span v-if="learn.period">{{ learn.period }}</span>
+                    </span>
+                    <ul>
+                        <li v-for="duty in learn.duties" :key="duty">{{ duty }}</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 技能展示 -->
+        <h2>Skills</h2>
+        <div class="skills">
+            <ul>
+                <li v-for="skill in skills" :key="skill">{{ skill }}</li>
+            </ul>
+        </div>
+
+        <!-- 自傳展示 -->
+        <h2>Autobiography</h2>
+        <p v-html="autobiography"></p>
+    </div>
+
+    <!-- Vue.js 實例 -->
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                profilePic: '大頭貼.png', // 這裡填寫你的大頭貼路徑
+                fullName: '蔡豐澤',
+                gender: '男',
+                age: 26,
+                status: '求職中',
+                phone: '0975-211-823',
+                email: 'ghjk20315@gmail.com',
+                address: '新北市板橋區中山路一段283巷3弄8號4樓',
+                license: '大型重型機車駕照、小型車普通駕駛執照',
+                availability: '隨時可以開始工作',
+                education: [
+                    { id: 1, institution: '國立師範大學', degree: '圖書資訊學 碩士', period: '2022/7 ~ 今' },
+                    { id: 2, institution: '世新大學', degree: '資訊管理學 學士', period: '2015/6 ~ 2019/6' }
+                ],
+                learningExperience: [
+                    {
+                        id: 1,
+                        title: '數據分析',
+                        organization: '',
+                        period: '',
+                        duties: [
+                            '資料庫管理與分析能力',
+                            '• 修讀資料庫管理課程，幫助企業完成資料轉型，從零開始建立關聯式資料庫，完成企業查詢員工基本資料以及薪資發放的目的。',
+                            '• 擅長設計資料庫關聯圖、資料庫正規化以及維護更新老舊資料庫。',
+                            '• 擅長使用Python、SQL等程式語言進行資料管理及報表查詢。',
+                            '• 畢業專題致力於美國專利數據庫的載入與CATAR分析系統的更新與整合。'
+                        ]
+                    },
+                    {
+                        id: 2,
+                        title: '自然語言處理與應用',
+                        organization: '',
+                        period: '',
+                        duties: [
+                            '• 修讀自然語言處理與應用課程，具備利用爬蟲程式從網路上抓取大量資料的能力。',
+                            '• 能進行資料前處理、資料清洗和停用詞分析，將複雜的語言轉化為電腦容易處理和計算的形式。',
+                            '• 運用文字雲和Tableau等相關技術將數據視覺化，提供更直觀的分析結果。'
+                        ]
+                    },
+                    {
+                        id: 3,
+                        title: '使用者經驗設計',
+                        organization: '',
+                        period: '',
+                        duties: [
+                            '• 參與使用者經驗設計與人機互動課程，深入了解UX設計流程。',
+                            '• 具備解決問題和迭代實現的能力。',
+                            '• 從了解項目、設計流程到最終交付設計，樂於與團隊合作尋找解決問題的方式，最終提供優質的使用者體驗。'
+                        ]
+                    }
+                ],
+                skills: [
+                    '辦公室應用類：Excel、Word、PowerPoint',
+                    '影像處理類：Photoshop、Illustrator',
+                    '網頁技術類：HTML、CSS、JavaScript、VSCode、Github',
+                    '程式設計類：Python、SQL',
+                    '介面設計類：Sketch、Figma'
+                ],
+                autobiography: '以下自傳敘述我個人的優勢（專長技能/性向特質/優點/興趣/未來志向）<br><br>' +
+                              '資料庫管理與分析能力： 通過修過資料庫管理課程並實作幫助企業資料轉型完成從零到有的關聯式資料庫，我具備了<br>' +
+                              '設計資料庫關聯圖、資料庫正規化以及管理資料庫的能力。並且擅長使用Python、SQL等程式語言進行資料管理以及<br>' +
+                              '報表查詢。<br>' +
+                              '並且畢業專題致力於美國專利數據庫的載入與CATAR分析系統更新。<br><br>' +
+                              '自然語言處理與應用： 修過自然語言處理與應用課程後，我能利用爬蟲程式從網路上抓取大量的資料，並進行資料前處理<br>' +
+                              '資料清洗和停用詞分析，將複雜的語言轉化為電腦容易處理、計算的形式。最後運用文字雲和Tableau等相關技術將數<br>' +
+                              '據視覺化，從而提供更直觀的分析結果。<br><br>' +
+                              '使用者經驗設計： 透過參與使用者經驗設計與人機互動課程，我了解到UX設計流程，並具備了解決問題和迭代實現的<br>' +
+                              '能力。從了解項目、設計流程到最後交付設計，並樂於與團隊一起合作尋找解決問題的方式，以提供優質的使用者體<br>'  +
+                              '驗。<br><br>' +
+                              '我的興趣包括喜歡利用擁有的知識解決遇到的困境，並且勇於學習一切我所需要用到或者未來可能用到的任何知識以及<br>' +
+                              '工作。我希望未來能擔任數據分析師、甚至是全端工程師，將所學的知識應用於解決現實生活中的挑戰，<br>' +
+                              '從大學資管系的訓練一路到準備研究所的挑戰，我都是一個勇於跳脫舒適圈的人，當我遇到完全沒有接觸過的領域時<br>。'+
+                              '我總是會用自己的方法找出最快速能解決問題的途徑，或許不是傳統的管道，也可能不是最佳解法，但我享受克服困難<br>'+
+                              '所帶給我的成就感，我想這是身為一個資訊人一輩子都必須抱持的精神，而我將這個精神貫徹在我生活當中的每一件事。<br>'+
+                              '我將保持謙虛與永不放棄的精神去面對未來求職路上遇到的一切困難。<br><br>'+
+                              '若參閱後願意給予面試機會，隨時透過上方通訊方式與我聯繫，謝謝您寶貴的時間。<br>'+
+                              '祝您有個愉快的一天!'
+            },
+            mounted() {
+                console.log('Vue.js instance mounted.');
+            }
+        });
+    </script>
+</body>
+</html>
